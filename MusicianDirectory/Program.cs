@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using MongoDB.Driver;
 using MongoDB.Bson;
 
@@ -10,12 +11,15 @@ namespace MusicianDirectory
 {
     class Program
     {
+        static void MainDirectory()
+        {
+
+        }
 
         static async Task ShowNames(string[] args)
-        //static async Task ShowNames(string[] args)
         {
             var client = new MongoClient();
-            IMongoDatabase db = client.GetDatabase("MusicianDB");
+            var db = client.GetDatabase("MusicianDB");
             var collection = db.GetCollection<Musician>("Musicians");
             var filter = Builders<Musician>.Filter.Empty;
 
@@ -26,30 +30,44 @@ namespace MusicianDirectory
                 Console.WriteLine("{0} -> {1}", mus.YearsOfExp, mus.YearsOfExp += 2);
             }
 
-            //await collection.Find(FilterDefinition<BsonDocument>.Empty).ForEachAsync(doc => Console.WriteLine(doc));
-            //await collection.Find(filter).ForEachAsync(doc => Console.WriteLine(doc));
+        }
 
-            //await collection.Find(musician => musician.YearsOfExp > 4).ForEachAsync(musician => Console.WriteLine("{0} played {1} for {2} years.", musician.Name, musician.Instrument, musician.YearsOfExp));
+        static void MainMenu()
+        {
+            bool isLooping = true;
+            do
+            {
+                Console.WriteLine("-----------------");
+                Console.WriteLine("[V]iew all musicians");
+                Console.WriteLine("[S]earch directory");
+                Console.WriteLine("[Q]uit");
+                Console.Write("Enter Choice: ");
+                string userInput = Console.ReadLine();
+                Console.WriteLine("-----------------");
 
-
-
-            //var query =
-            //    from mus in collection.AsQueryable<Musician>()
-            //    where mus.Name == "Fabian"
-            //    select mus;
-
-            //foreach(var musician in query)
-            //{
-            //    Console.WriteLine(musician);
-            //}
-
+                switch (userInput.ToLower())
+                {
+                    case "v":
+                        Console.WriteLine("Viewing all musicians");
+                        break;
+                    case "s":
+                        Console.WriteLine("Searching directory");
+                        break;
+                    case "q":
+                        Console.WriteLine("Quitting Application");
+                        isLooping = false;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid input");
+                        break;
+                }
+            } while (isLooping);
 
         }
 
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the Musician's Directory!");
-
             //Establish Connection to MusicianDB
             var client = new MongoClient("mongodb://localhost:27017/MusicianDB");
             //Get Database, if it doesn't exist, create it
@@ -72,10 +90,11 @@ namespace MusicianDirectory
             //count of existing records
             int totalMusicians = musicianCollection.AsQueryable().Count();
 
-            Console.WriteLine("Amount of Musicians in this database: {0}", totalMusicians);
+            //Console.WriteLine("Amount of Musicians in this database: {0}", totalMusicians);
 
-            ShowNames(args).Wait();
-            //ShowNames();
+            MainMenu();
+            Console.WriteLine("Thank you for using the MusicianDirectory");
+            //ShowNames(args).Wait();
 
             Console.ReadLine();
         }
