@@ -10,20 +10,40 @@ namespace MusicianDirectory
 {
     class Program
     {
+
         static async Task ShowNames(string[] args)
+        //static async Task ShowNames(string[] args)
         {
             var client = new MongoClient();
             IMongoDatabase db = client.GetDatabase("MusicianDB");
-            var collection = db.GetCollection<BsonDocument>("Musicians");
+            var collection = db.GetCollection<Musician>("Musicians");
+            var filter = Builders<Musician>.Filter.Empty;
 
-            var list = await collection.Find(new BsonDocument()).ToListAsync();
+            var result = collection.Find(filter).ToList();
 
-            foreach(var mus in list)
+            foreach(var mus in result)
             {
-                Console.WriteLine(mus);
+                Console.WriteLine("{0} -> {1}", mus.YearsOfExp, mus.YearsOfExp += 2);
             }
 
-          
+            //await collection.Find(FilterDefinition<BsonDocument>.Empty).ForEachAsync(doc => Console.WriteLine(doc));
+            //await collection.Find(filter).ForEachAsync(doc => Console.WriteLine(doc));
+
+            //await collection.Find(musician => musician.YearsOfExp > 4).ForEachAsync(musician => Console.WriteLine("{0} played {1} for {2} years.", musician.Name, musician.Instrument, musician.YearsOfExp));
+
+
+
+            //var query =
+            //    from mus in collection.AsQueryable<Musician>()
+            //    where mus.Name == "Fabian"
+            //    select mus;
+
+            //foreach(var musician in query)
+            //{
+            //    Console.WriteLine(musician);
+            //}
+
+
         }
 
         static void Main(string[] args)
@@ -55,6 +75,7 @@ namespace MusicianDirectory
             Console.WriteLine("Amount of Musicians in this database: {0}", totalMusicians);
 
             ShowNames(args).Wait();
+            //ShowNames();
 
             Console.ReadLine();
         }
