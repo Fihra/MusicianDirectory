@@ -98,7 +98,7 @@ namespace MusicianDirectory
 
             var result = collection.Find(filter).ToList();
             int totalMusicians = collection.AsQueryable().Count();
-           
+            Console.WriteLine("Removing Musician");
             if (totalMusicians < 1)
             {
                 Console.WriteLine("There are no musicians to delete.");
@@ -126,7 +126,7 @@ namespace MusicianDirectory
                 Console.WriteLine(musicianSelection.Name);
 
                 collection.DeleteOne(m => m.Id == musicianSelection.Id);
-               
+                musicians.Remove(musicianSelection);
             }
         }
 
@@ -174,17 +174,16 @@ namespace MusicianDirectory
                     case "n":
                         NewMusician();
                         break;
-                    case "v":
+                    case "v"://TODO
                         Console.WriteLine("View musician");
                         break;
-                    case "u":
+                    case "u"://TODO
                         Console.WriteLine("Update musician Info");
                         break;
                     case "r":
-                        Console.WriteLine("Removing Musician");
                         RemoveMusician();
                         break;
-                    case "s":
+                    case "s"://TODO
                         Console.WriteLine("Searching directory");
                         break;
                     case "q":
