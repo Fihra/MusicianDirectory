@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using MongoDB.Driver;
 using MongoDB.Bson;
+using MongoDB.Driver.Linq;
 
 namespace MusicianDirectory
 {
@@ -136,6 +137,9 @@ namespace MusicianDirectory
                         case "n":
                             Console.Write("Enter new name: ");
                             string newNameInput = Console.ReadLine();
+                            var nameFilter = Builders<Musician>.Filter.Eq("_id", musicianSelection.Id);
+                            var update = Builders<Musician>.Update.Set("Name", newNameInput);
+                            collection.UpdateOne(nameFilter, update);
                             break;
                         case "i":
                             Console.Write("Enter new instrument: ");
