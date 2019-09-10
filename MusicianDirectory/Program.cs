@@ -21,17 +21,16 @@ namespace MusicianDirectory
             var database = client.GetDatabase("MusicianDB");
         }
 
-        static async Task ShowNames(string[] args)
-        {
-            var client = new MongoClient();
-            var db = client.GetDatabase("MusicianDB");
-            var collection = db.GetCollection<Musician>("Musicians");
-            var filter = Builders<Musician>.Filter.Empty;
+        //static async Task ShowNames(string[] args)
+        //{
+        //    var client = new MongoClient();
+        //    var db = client.GetDatabase("MusicianDB");
+        //    var collection = db.GetCollection<Musician>("Musicians");
+        //    var filter = Builders<Musician>.Filter.Empty;
 
-            var result = collection.Find(filter).ToList();
-            
-            
-        }
+        //    var result = collection.Find(filter).ToList();
+
+        //}
         static void MainMenu()
         {
             Console.WriteLine("-----------------");
@@ -39,7 +38,7 @@ namespace MusicianDirectory
             Console.WriteLine("[N]ew musician");
             Console.WriteLine("[U]pdate musician info");
             Console.WriteLine("[R]emove musician");
-            Console.WriteLine("[S]earch directory");
+            Console.WriteLine("[S]ort directory");
             Console.WriteLine("[Q]uit");
             Console.Write("Enter Choice: ");
         }
@@ -208,6 +207,55 @@ namespace MusicianDirectory
             }
         }
 
+        static void SortMenu()
+        {
+            Console.WriteLine("---Sort by---");
+            Console.WriteLine("[N]ame Alphabetically");
+            Console.WriteLine("[I]nstrument Alphabetically");
+            Console.WriteLine("[Y]ears of Experience");
+            Console.WriteLine("[B]ack");
+        }
+
+        static void SortMusicians()
+        {
+            var client = new MongoClient();
+            var db = client.GetDatabase("MusicianDB");
+            var collection = db.GetCollection<Musician>("Musicians");
+            var filter = Builders<Musician>.Filter.Empty;
+            int totalMusicians = collection.AsQueryable().Count();
+
+            Console.WriteLine("Sorting directory");
+            if (totalMusicians < 1)
+            {
+                Console.WriteLine("There are no musicians to sort.");
+            }
+            else
+            {
+                bool isLooping = true;
+                do
+                {
+                    SortMenu();
+                    Console.Write("Enter Choice: ");
+                    string userChoice = Console.ReadLine();
+
+                    switch (userChoice.ToLower())
+                    {
+                        case "n":
+                            Console.WriteLine("Sorted by Name");
+                            break;
+                        case "i":
+                            Console.WriteLine("Sorted by Instrument");
+                            break;
+                        case "y":
+                            Console.WriteLine("Sorted by Years");
+                            break;
+                        case "b":
+                            isLooping = false;
+                            break;
+                    }
+                } while (isLooping);
+            }
+        }
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the Musician's Directory!");
@@ -236,14 +284,12 @@ namespace MusicianDirectory
             //int totalMusicians = musicianCollection.AsQueryable().Count();
 
             //Console.WriteLine("Amount of Musicians in this database: {0}", totalMusicians);
-
             bool isLooping = true;
             do
             {
                 MainMenu();
                 string userInput = Console.ReadLine();
                 Console.WriteLine("-----------------");
-
                 switch (userInput.ToLower())
                 {
                     case "a":
@@ -259,7 +305,7 @@ namespace MusicianDirectory
                         RemoveMusician();
                         break;
                     case "s"://TODO
-                        Console.WriteLine("Searching directory");
+                        SortMusicians();
                         break;
                     case "q":
                         Console.WriteLine("Quitting Application");
@@ -271,11 +317,9 @@ namespace MusicianDirectory
                     }
                 } while (isLooping);
 
-            Console.WriteLine("Thank you for using the MusicianDirectory");
+            Console.WriteLine("Thank you for using the MusicianDirectory.");
             //ShowNames(args).Wait();
-
             Console.ReadLine();
         }
-
     }
 }
