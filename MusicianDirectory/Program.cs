@@ -11,9 +11,13 @@ namespace MusicianDirectory
 {
     class Program
     {
-        static void MainDirectory()
+        static void Musicdb()
         {
-
+            var connectionString = "mongodb://localhost:27017/MusicianDB";
+            //Establish Connection to MusicianDB
+            var client = new MongoClient(connectionString);
+            //Get Database, if it doesn't exist, create it
+            var database = client.GetDatabase("MusicianDB");
         }
 
         static async Task ShowNames(string[] args)
@@ -24,19 +28,9 @@ namespace MusicianDirectory
             var filter = Builders<Musician>.Filter.Empty;
 
             var result = collection.Find(filter).ToList();
-
-            foreach(var mus in result)
-            {
-                Console.WriteLine("{0} -> {1}", mus.YearsOfExp, mus.YearsOfExp += 2);
-            }
-
+            
+            
         }
-
-        static void ViewMusicians()
-        {
-               
-        }
-
         static void MainMenu()
         {
             Console.WriteLine("-----------------");
@@ -48,6 +42,49 @@ namespace MusicianDirectory
             Console.WriteLine("[S]earch directory");
             Console.WriteLine("[Q]uit");
             Console.Write("Enter Choice: ");
+        }
+
+        static void AllMusicians()
+        {
+            var client = new MongoClient();
+            var db = client.GetDatabase("MusicianDB");
+            var collection = db.GetCollection<Musician>("Musicians");
+            var filter = Builders<Musician>.Filter.Empty;
+
+            var result = collection.Find(filter).ToList();
+            int totalMusicians = collection.AsQueryable().Count();
+
+            if (totalMusicians < 1)
+            {
+                Console.WriteLine("There are no musicians.");
+            }
+            else
+            {
+                foreach (var mus in result)
+                {
+                    Console.WriteLine("Name: {0}", mus.Name);
+                }
+            }
+        }
+
+        static void NewMusician()
+        {
+            var client = new MongoClient();
+            var db = client.GetDatabase("MusicianDB");
+            var collection = db.GetCollection<Musician>("Musicians");
+            var filter = Builders<Musician>.Filter.Empty;
+
+            Console.WriteLine("New Musician Form");
+            Console.Write("Name: ");
+            string nameInput = Console.ReadLine();
+            Console.Write("Instrument: ");
+            string instrumentInput = Console.ReadLine();
+            Console.Write("Years of Experience: ");
+            string yearsOfExpInput = Console.ReadLine();
+            int yearsOfExpInputconverted = Convert.ToInt32(yearsOfExpInput);
+
+            //musicianCollection.InsertOne(new Musician("Fabian", "Laud", 5));
+            collection.InsertOne(new Musician(nameInput, instrumentInput, yearsOfExpInputconverted));
         }
 
         static void Main(string[] args)
@@ -90,9 +127,11 @@ namespace MusicianDirectory
                 {
                     case "a":
                         Console.WriteLine("All musicians");
+                        AllMusicians();
                         break;
                     case "n":
                         Console.WriteLine("New musician form");
+                        NewMusician();
                         break;
                     case "v":
                         Console.WriteLine("View musician");
