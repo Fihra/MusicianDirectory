@@ -36,7 +36,6 @@ namespace MusicianDirectory
             Console.WriteLine("-----------------");
             Console.WriteLine("[A]ll musicians");
             Console.WriteLine("[N]ew musician");
-            Console.WriteLine("[V]iew musician");
             Console.WriteLine("[U]pdate musician info");
             Console.WriteLine("[R]emove musician");
             Console.WriteLine("[S]earch directory");
@@ -63,7 +62,7 @@ namespace MusicianDirectory
                 foreach (var mus in result)
                 {
                     Console.WriteLine("Name: {0}", mus.Name);
-                    Console.WriteLine("Instrument: {0}", mus.Instrument);
+                    Console.WriteLine("Main Instrument: {0}", mus.Instrument);
                     Console.WriteLine("Years of Experience: {0}", mus.YearsOfExp);
                     Console.WriteLine("");
                 }
@@ -89,6 +88,11 @@ namespace MusicianDirectory
             collection.InsertOne(new Musician(nameInput, instrumentInput, yearsOfExpInputconverted));
         }
 
+        static void ViewMusician()
+        {
+
+        }
+
         static void RemoveMusician()
         {
             var client = new MongoClient();
@@ -112,7 +116,7 @@ namespace MusicianDirectory
                 {
                     Console.WriteLine("[{0}]", choices);
                     Console.WriteLine("Name: {0}", mus.Name);
-                    Console.WriteLine("Instrument: {0}", mus.Instrument);
+                    Console.WriteLine("Main Instrument: {0}", mus.Instrument);
                     Console.WriteLine("Years of Experience: {0}", mus.YearsOfExp);
                     Console.WriteLine("");
                     musicians.Add(mus);
@@ -173,9 +177,6 @@ namespace MusicianDirectory
                         break;
                     case "n":
                         NewMusician();
-                        break;
-                    case "v"://TODO
-                        Console.WriteLine("View musician");
                         break;
                     case "u"://TODO
                         Console.WriteLine("Update musician Info");
