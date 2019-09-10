@@ -138,16 +138,22 @@ namespace MusicianDirectory
                             Console.Write("Enter new name: ");
                             string newNameInput = Console.ReadLine();
                             var nameFilter = Builders<Musician>.Filter.Eq("_id", musicianSelection.Id);
-                            var update = Builders<Musician>.Update.Set("Name", newNameInput);
-                            collection.UpdateOne(nameFilter, update);
+                            var nameUpdate = Builders<Musician>.Update.Set("Name", newNameInput);
+                            collection.UpdateOne(nameFilter, nameUpdate);
                             break;
                         case "i":
                             Console.Write("Enter new instrument: ");
                             string newInstrumentInput = Console.ReadLine();
+                            var instrumentFilter = Builders<Musician>.Filter.Eq("_id", musicianSelection.Id);
+                            var instrumentUpdate = Builders<Musician>.Update.Set("Instrument", newInstrumentInput);
+                            collection.UpdateOne(instrumentFilter, instrumentUpdate);
                             break;
                         case "y":
                             Console.Write("Enter new # of years: ");
                             int newYearsInput = Convert.ToInt32(Console.ReadLine());
+                            var yearsFilter = Builders<Musician>.Filter.Eq("_id", musicianSelection.Id);
+                            var yearsUpdate = Builders<Musician>.Update.Set("YearsOfExp", newYearsInput);
+                            collection.UpdateOne(yearsFilter, yearsUpdate);
                             break;
                         case "b":
                             isLooping = false;
@@ -246,7 +252,7 @@ namespace MusicianDirectory
                     case "n":
                         NewMusician();
                         break;
-                    case "u"://TODO
+                    case "u":
                         UpdateMusician();
                         break;
                     case "r":
