@@ -53,7 +53,7 @@ namespace MusicianDirectory
 
             var result = collection.Find(filter).ToList();
             int totalMusicians = collection.AsQueryable().Count();
-
+            Console.WriteLine("All Musicians");
             if (totalMusicians < 1)
             {
                 Console.WriteLine("There are no musicians.");
@@ -63,6 +63,9 @@ namespace MusicianDirectory
                 foreach (var mus in result)
                 {
                     Console.WriteLine("Name: {0}", mus.Name);
+                    Console.WriteLine("Instrument: {0}", mus.Instrument);
+                    Console.WriteLine("Years of Experience: {0}", mus.YearsOfExp);
+                    Console.WriteLine("");
                 }
             }
         }
@@ -83,8 +86,48 @@ namespace MusicianDirectory
             string yearsOfExpInput = Console.ReadLine();
             int yearsOfExpInputconverted = Convert.ToInt32(yearsOfExpInput);
 
-            //musicianCollection.InsertOne(new Musician("Fabian", "Laud", 5));
             collection.InsertOne(new Musician(nameInput, instrumentInput, yearsOfExpInputconverted));
+        }
+
+        static void RemoveMusician()
+        {
+            var client = new MongoClient();
+            var db = client.GetDatabase("MusicianDB");
+            var collection = db.GetCollection<Musician>("Musicians");
+            var filter = Builders<Musician>.Filter.Empty;
+
+            var result = collection.Find(filter).ToList();
+            int totalMusicians = collection.AsQueryable().Count();
+           
+            if (totalMusicians < 1)
+            {
+                Console.WriteLine("There are no musicians to delete.");
+            }
+            else
+            {
+                int choices = 1;
+
+                List<Musician> musicians = new List<Musician>();
+                foreach (var mus in result)
+                {
+                    Console.WriteLine("[{0}]", choices);
+                    Console.WriteLine("Name: {0}", mus.Name);
+                    Console.WriteLine("Instrument: {0}", mus.Instrument);
+                    Console.WriteLine("Years of Experience: {0}", mus.YearsOfExp);
+                    Console.WriteLine("");
+                    musicians.Add(mus);
+                    choices++;
+                }
+                Console.Write("Select choice: ");
+                int choiceInput = Convert.ToInt32(Console.ReadLine());
+
+                var musicianSelection = musicians[choiceInput - 1];
+
+                Console.WriteLine(musicianSelection.Name);
+
+                collection.DeleteOne(m => m.Id == musicianSelection.Id);
+               
+            }
         }
 
         static void Main(string[] args)
@@ -126,11 +169,9 @@ namespace MusicianDirectory
                 switch (userInput.ToLower())
                 {
                     case "a":
-                        Console.WriteLine("All musicians");
                         AllMusicians();
                         break;
                     case "n":
-                        Console.WriteLine("New musician form");
                         NewMusician();
                         break;
                     case "v":
@@ -140,7 +181,8 @@ namespace MusicianDirectory
                         Console.WriteLine("Update musician Info");
                         break;
                     case "r":
-                        Console.WriteLine("Remove Musician");
+                        Console.WriteLine("Removing Musician");
+                        RemoveMusician();
                         break;
                     case "s":
                         Console.WriteLine("Searching directory");
