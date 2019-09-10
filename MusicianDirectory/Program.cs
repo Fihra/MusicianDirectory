@@ -88,9 +88,73 @@ namespace MusicianDirectory
             collection.InsertOne(new Musician(nameInput, instrumentInput, yearsOfExpInputconverted));
         }
 
-        static void ViewMusician()
+        static void UpdateMusician()
         {
+            var client = new MongoClient();
+            var db = client.GetDatabase("MusicianDB");
+            var collection = db.GetCollection<Musician>("Musicians");
+            var filter = Builders<Musician>.Filter.Empty;
 
+            var result = collection.Find(filter).ToList();
+            int totalMusicians = collection.AsQueryable().Count();
+            Console.WriteLine("Update Musician Info");
+            if (totalMusicians < 1)
+            {
+                Console.WriteLine("There are no musicians to update.");
+            }
+            else
+            {
+                int choices = 1;
+
+                List<Musician> musicians = new List<Musician>();
+                foreach (var mus in result)
+                {
+                    Console.WriteLine("[{0}]", choices);
+                    Console.WriteLine("Name: {0}", mus.Name);
+                    Console.WriteLine("Main Instrument: {0}", mus.Instrument);
+                    Console.WriteLine("Years of Experience: {0}", mus.YearsOfExp);
+                    Console.WriteLine("");
+                    musicians.Add(mus);
+                    choices++;
+                }
+                Console.Write("Select choice: ");
+                int choiceInput = Convert.ToInt32(Console.ReadLine());
+
+                var musicianSelection = musicians[choiceInput - 1];
+
+                Console.WriteLine("Name: {0}", musicianSelection.Name);
+                Console.WriteLine("Main Instrument: {0}", musicianSelection.Instrument);
+                Console.WriteLine("Years of Experience: {0}", musicianSelection.YearsOfExp);
+                bool isLooping = true;
+                do
+                {
+                    Console.WriteLine("What would you like to change? [N]ame, [I]nstrument, [Y]ears of Experience, [B]ack");
+                    Console.Write("Choice: ");
+                    string userInput = Console.ReadLine();
+                    switch (userInput.ToLower())
+                    {
+                        case "n":
+                            Console.Write("Enter new name: ");
+                            string newNameInput = Console.ReadLine();
+                            break;
+                        case "i":
+                            Console.Write("Enter new instrument: ");
+                            string newInstrumentInput = Console.ReadLine();
+                            break;
+                        case "y":
+                            Console.Write("Enter new # of years: ");
+                            int newYearsInput = Convert.ToInt32(Console.ReadLine());
+                            break;
+                        case "b":
+                            isLooping = false;
+                            break;
+                        default:
+                            Console.WriteLine("Invalid Input");
+                            break;
+                    }
+                } while (isLooping);
+                
+            }
         }
 
         static void RemoveMusician()
@@ -179,7 +243,7 @@ namespace MusicianDirectory
                         NewMusician();
                         break;
                     case "u"://TODO
-                        Console.WriteLine("Update musician Info");
+                        UpdateMusician();
                         break;
                     case "r":
                         RemoveMusician();
