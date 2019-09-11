@@ -61,10 +61,7 @@ namespace MusicianDirectory
             {
                 foreach (var mus in result)
                 {
-                    Console.WriteLine("Name: {0}", mus.Name);
-                    Console.WriteLine("Main Instrument: {0}", mus.Instrument);
-                    Console.WriteLine("Years of Experience: {0}", mus.YearsOfExp);
-                    Console.WriteLine("");
+                    MusicianInfo(mus);
                 }
             }
         }
@@ -216,6 +213,14 @@ namespace MusicianDirectory
             Console.WriteLine("[B]ack");
         }
 
+        static void MusicianInfo(Musician musician)
+        {
+            Console.WriteLine("Name: {0}", musician.Name);
+            Console.WriteLine("Main Instrument: {0}", musician.Instrument);
+            Console.WriteLine("Years of Experience: {0}", musician.YearsOfExp);
+            Console.WriteLine("");
+        }
+
         static void SortMusicians()
         {
             var client = new MongoClient();
@@ -246,10 +251,7 @@ namespace MusicianDirectory
                             var nameDisplay = collection.Find(filter).Sort(nameSort).ToList();
                             foreach(var mus in nameDisplay)
                             {
-                                Console.WriteLine("Name: {0}", mus.Name);
-                                Console.WriteLine("Main Instrument: {0}", mus.Instrument);
-                                Console.WriteLine("Years of Experience: {0}", mus.YearsOfExp);
-                                Console.WriteLine("");
+                                MusicianInfo(mus);
                             }
                             break;
                         case "i":
@@ -258,14 +260,17 @@ namespace MusicianDirectory
                             var instrumentDisplay = collection.Find(filter).Sort(instrumentSort).ToList();
                             foreach (var mus in instrumentDisplay)
                             {
-                                Console.WriteLine("Name: {0}", mus.Name);
-                                Console.WriteLine("Main Instrument: {0}", mus.Instrument);
-                                Console.WriteLine("Years of Experience: {0}", mus.YearsOfExp);
-                                Console.WriteLine("");
+                                MusicianInfo(mus);
                             }
                             break;
                         case "y":
                             Console.WriteLine("Sorted by Years");
+                            var yearsSort = Builders<Musician>.Sort.Ascending(m => m.YearsOfExp);
+                            var yearsDisplay = collection.Find(filter).Sort(yearsSort).ToList();
+                            foreach(var mus in yearsDisplay)
+                            {
+                                MusicianInfo(mus);
+                            }
                             break;
                         case "b":
                             isLooping = false;
