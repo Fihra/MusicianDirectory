@@ -107,9 +107,7 @@ namespace MusicianDirectory
                 foreach (var mus in result)
                 {
                     Console.WriteLine("[{0}]", choices);
-                    Console.WriteLine("Name: {0}", mus.Name);
-                    Console.WriteLine("Main Instrument: {0}", mus.Instrument);
-                    Console.WriteLine("Years of Experience: {0}", mus.YearsOfExp);
+                    MusicianInfo(mus);
                     Console.WriteLine("");
                     musicians.Add(mus);
                     choices++;
@@ -119,9 +117,8 @@ namespace MusicianDirectory
 
                 var musicianSelection = musicians[choiceInput - 1];
 
-                Console.WriteLine("Name: {0}", musicianSelection.Name);
-                Console.WriteLine("Main Instrument: {0}", musicianSelection.Instrument);
-                Console.WriteLine("Years of Experience: {0}", musicianSelection.YearsOfExp);
+                MusicianInfo(musicianSelection);
+
                 bool isLooping = true;
                 do
                 {
@@ -158,8 +155,7 @@ namespace MusicianDirectory
                             Console.WriteLine("Invalid Input");
                             break;
                     }
-                } while (isLooping);
-                
+                } while (isLooping);  
             }
         }
 
@@ -185,9 +181,7 @@ namespace MusicianDirectory
                 foreach (var mus in result)
                 {
                     Console.WriteLine("[{0}]", choices);
-                    Console.WriteLine("Name: {0}", mus.Name);
-                    Console.WriteLine("Main Instrument: {0}", mus.Instrument);
-                    Console.WriteLine("Years of Experience: {0}", mus.YearsOfExp);
+                    MusicianInfo(mus);
                     Console.WriteLine("");
                     musicians.Add(mus);
                     choices++;
@@ -265,7 +259,7 @@ namespace MusicianDirectory
                             break;
                         case "y":
                             Console.WriteLine("Sorted by Years");
-                            var yearsSort = Builders<Musician>.Sort.Ascending(m => m.YearsOfExp);
+                            var yearsSort = Builders<Musician>.Sort.Descending(m => m.YearsOfExp);
                             var yearsDisplay = collection.Find(filter).Sort(yearsSort).ToList();
                             foreach(var mus in yearsDisplay)
                             {
@@ -327,7 +321,7 @@ namespace MusicianDirectory
                     case "r":
                         RemoveMusician();
                         break;
-                    case "s"://TODO
+                    case "s":
                         SortMusicians();
                         break;
                     case "q":
