@@ -254,6 +254,15 @@ namespace MusicianDirectory
                             break;
                         case "i":
                             Console.WriteLine("Sorted by Instrument");
+                            var instrumentSort = Builders<Musician>.Sort.Ascending(m => m.Instrument);
+                            var instrumentDisplay = collection.Find(filter).Sort(instrumentSort).ToList();
+                            foreach (var mus in instrumentDisplay)
+                            {
+                                Console.WriteLine("Name: {0}", mus.Name);
+                                Console.WriteLine("Main Instrument: {0}", mus.Instrument);
+                                Console.WriteLine("Years of Experience: {0}", mus.YearsOfExp);
+                                Console.WriteLine("");
+                            }
                             break;
                         case "y":
                             Console.WriteLine("Sorted by Years");
