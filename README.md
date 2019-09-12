@@ -8,6 +8,23 @@ add a new musician to the directory, update a certain musician's information bas
 the directory. The user can sort the directory by the musician's name alphabetically, group by instruments, or by the most years 
 experienced.
 
+#### View Directory
+![View](https://im5.ezgif.com/tmp/ezgif-5-fdecfcdef2c6.gif)
+
+#### Register New Musician
+![New](https://im5.ezgif.com/tmp/ezgif-5-eac409849cad.gif)
+
+#### Update Musician's Info
+![Update](https://im5.ezgif.com/tmp/ezgif-5-dbfaf564e5c1.gif)
+
+#### Remove Musician
+![Remove](https://im5.ezgif.com/tmp/ezgif-5-cc767e02e698.gif)
+
+#### Sort by Name, Instrument, Years of Experience
+![Sort](https://im5.ezgif.com/tmp/ezgif-5-9bcdf41c83f0.gif)
+
+####
+
 ## Tools used
 - C#
 - MongoDB
