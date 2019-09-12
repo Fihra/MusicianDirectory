@@ -9,19 +9,21 @@ the directory. The user can sort the directory by the musician's name alphabetic
 experienced.
 
 #### View Directory
-![View](https://im5.ezgif.com/tmp/ezgif-5-fdecfcdef2c6.gif)
+![View](https://j.gifs.com/Qnjn45.gif)
 
 #### Register New Musician
-![New](https://im5.ezgif.com/tmp/ezgif-5-eac409849cad.gif)
+![New](https://j.gifs.com/2x2xVA.gif)
 
 #### Update Musician's Info
-![Update](https://im5.ezgif.com/tmp/ezgif-5-dbfaf564e5c1.gif)
+![Update](https://j.gifs.com/lxXxG1.gif)
+![Update-2](https://j.gifs.com/vlRlVn.gif)
 
 #### Remove Musician
-![Remove](https://im5.ezgif.com/tmp/ezgif-5-cc767e02e698.gif)
+![Remove](https://j.gifs.com/Gvzv35.gif)
 
 #### Sort by Name, Instrument, Years of Experience
-![Sort](https://im5.ezgif.com/tmp/ezgif-5-9bcdf41c83f0.gif)
+![Sort-name](https://j.gifs.com/P7g736.gif)
+![Sort-instrument-years](https://j.gifs.com/XLqL8V.gif)
 
 ####
 
